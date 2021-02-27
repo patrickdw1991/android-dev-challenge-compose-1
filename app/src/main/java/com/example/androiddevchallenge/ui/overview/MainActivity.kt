@@ -13,16 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androiddevchallenge
+package com.example.androiddevchallenge.ui.overview
 
+import android.content.Context
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.androiddevchallenge.data.model.Cat
+import com.example.androiddevchallenge.data.provideCats
+import com.example.androiddevchallenge.ui.detail.DetailActivity
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
 class MainActivity : AppCompatActivity() {
@@ -39,9 +49,7 @@ class MainActivity : AppCompatActivity() {
 // Start building your app here!
 @Composable
 fun MyApp() {
-    Surface(color = MaterialTheme.colors.background) {
-        Text(text = "Ready... Set... GO!")
-    }
+    AdoptedCatsList(cats = provideCats())
 }
 
 @Preview("Light Theme", widthDp = 360, heightDp = 640)
@@ -58,4 +66,21 @@ fun DarkPreview() {
     MyTheme(darkTheme = true) {
         MyApp()
     }
+}
+
+@Composable
+fun AdoptedCatsList(cats: List<Cat>) {
+    val context = LocalContext.current
+
+    LazyColumn {
+        items(cats) { cat ->
+            CatItemView(cat = cat) {
+                startCatDetail(context, cat)
+            }
+        }
+    }
+}
+
+private fun startCatDetail(context: Context, cat: Cat) {
+    context.startActivity(DetailActivity.newIntent(context, cat))
 }
