@@ -48,6 +48,6 @@ fun CatItemView(
 @Composable
 fun PreviewItem() {
     MyTheme {
-        CatItemView(provideCats().first()) {  }
+        CatItemView(provideCats().first()) { }
     }
 }
