@@ -3,6 +3,7 @@ package com.example.androiddevchallenge.ui.detail
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import com.example.androiddevchallenge.data.model.Cat
@@ -17,10 +18,16 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyTheme {
-                DetailView(cat)
+                DetailView(cat) {
+                    adoptCat()
+                }
             }
         }
         title = cat.name
+    }
+
+    private fun adoptCat() {
+        Toast.makeText(this, "You adopted me!", Toast.LENGTH_SHORT).show()
     }
 
     companion object {
@@ -32,5 +39,4 @@ class DetailActivity : AppCompatActivity() {
         ) = Intent(context, DetailActivity::class.java)
             .putExtra(EXTRA_CAT, cat)
     }
-
 }
